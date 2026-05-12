@@ -50,7 +50,24 @@ class EDAService:
             "total_classes": int(self.dataframe["label"].nunique()),
             "mean_width": float(self.dataframe["width"].mean()),
             "mean_height": float(self.dataframe["height"].mean()),
-        }                                              
+        }   
+    def save_sample_grid(self) -> None:
+        """Save a 3x3 grid of sample images for quick visual inspection."""
+        sample_df = self.dataframe.sample(
+        min(9, len(self.dataframe)), random_state=42
+        )
+        fig, axes = plt.subplots(3, 3, figsize=(10, 10))
+        for ax, (_, row) in zip(axes.flat, sample_df.iterrows()):
+            image = cv2.imread(row["file_path"])
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            ax.imshow(image)
+            ax.set_title(row["label"], fontsize=8)
+            ax.axis("off")
+        for ax in axes.flat[len(sample_df):]:
+            ax.axis("off")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / "sample_grid.png")
+        plt.close()                                           
 
     def save_boxplot(self) -> None:                     
         """Save a box plot of image dimensions per class."""
