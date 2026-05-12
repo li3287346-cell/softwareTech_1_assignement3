@@ -25,6 +25,7 @@ if __name__ == "__main__":
 #eda_service
 import os
 import random
+from pathlib import Path
 
 import cv2
 import matplotlib.pyplot as plt
@@ -33,6 +34,7 @@ import pandas as pd
 import plotly.express as px
 import seaborn as sns
 
+from src.models.records import ImageRecord
 
 class EDAService:
     """Generate and save EDA outputs for the macroinvertebrate image dataset."""
@@ -65,12 +67,19 @@ class EDAService:
                 # NumPy: compute mean brightness across all channels
                 brightness = float(np.mean(img))
 
+                record = ImageRecord(
+                    file_path=Path(img_path),
+                    label=label,
+                    width=w,
+                    height=h,
+                    channels=channels,
+                )
                 data.append({
-                    "path": img_path,
-                    "label": label,
-                    "width": w,
-                    "height": h,
-                    "channels": channels,
+                    "path": str(record.file_path),
+                    "label": record.label,
+                    "width": record.width,
+                    "height": record.height,
+                    "channels": record.channels,
                     "brightness": round(brightness, 2),
                 })
 
@@ -211,7 +220,7 @@ class EDAService:
         os.makedirs(self.output_folder, exist_ok=True)
         print("\n===== Running Stage 1 EDA =====")
         self.build_dataframe()
-        print(f"DEBUG: DataFrame shape = {self.df.shape}") 
+        print(f"DEBUG: DataFrame shape = {self.df.shape}")
         print(f"DEBUG: Columns = {self.df.columns.tolist()}")
         self.print_summary()
         print("\nGenerating charts...")
