@@ -2,7 +2,7 @@ import pandas as pd
 from src.config import EDA_OUTPUT_DIR
 from src.services.dataset_indexer import DatasetIndexer
 from src.services.eda_service import EDAService
-from src.utils.plotting import save_sample_grid
+
 
 
 class WorkflowService:
@@ -43,4 +43,4 @@ class WorkflowService:
         eda.save_boxplot()
         eda.save_rgb_channels()
         eda.save_brightness_by_class()
-        save_sample_grid(dataframe, EDA_OUTPUT_DIR / "sample_grid.png")
+        eda.save_sample_grid()
