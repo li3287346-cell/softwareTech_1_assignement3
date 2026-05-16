@@ -32,8 +32,8 @@ class MacroApp(tk.Tk):
         self.chart_options = {
             "Class Distribution": "class_distribution.png",
             "Image Size Distribution": "image_size_distribution.png",
-            "Sample Image Grid": "sample_grid.png",
-            "Box Plot": "boxplot_dimensions.png",
+            "Sample Image Grid": "sample_images.png",
+            "Box Plot": "size_boxplot.png",
             "RGB Channels": "rgb_channels.png",
             "Brightness by Class": "brightness_by_class.png",
         }
